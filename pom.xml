@@ -4,4 +4,14 @@
   <groupId>net.zffu</groupId>
   <artifactId>CrimsonDB</artifactId>
   <version>1.0.0</version>
+
+  <dependencies>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.15.1</version>
+    </dependency>
+  </dependencies>
+
 </project>
+
