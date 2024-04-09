@@ -3,6 +3,7 @@ package net.zffu.crimson.tables;
 import net.zffu.crimson.tables.params.Parameter;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,7 @@ public class CrimsonTable {
 
     public CrimsonTable(String name) {
         this.name = name;
+        this.parameters = new ArrayList<>();
     }
 
     public void addParameter(Parameter parameter) {
