@@ -13,4 +13,12 @@ public class Parameter {
         this.parameterLength = length;
     }
 
+    public ParameterType getType() {
+        return this.type;
+    }
+
+    public int getLength() {
+        return this.parameterLength;
+    }
+
 }

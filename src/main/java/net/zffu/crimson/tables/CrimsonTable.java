@@ -31,6 +31,10 @@ public class CrimsonTable {
         this.parameters.add(parameter);
     }
 
+    public List<Parameter> getParameters() {
+        return this.parameters;
+    }
+
 
 
 }
