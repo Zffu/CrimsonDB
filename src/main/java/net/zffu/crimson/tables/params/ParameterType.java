@@ -2,9 +2,13 @@ package net.zffu.crimson.tables.params;
 
 public enum ParameterType {
 
-    ANY,
-    STRING,
-    NUMBER;
+    ANY(0),
+    STRING(1),
+    INTEGER(2),
+    DOUBLE(3),
+    FLOAT(4),
+    SHORT(5),
+    LONG(6);
 
     public static ParameterType get(int index) {
         try {
@@ -12,6 +16,12 @@ public enum ParameterType {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public int index;
+
+    private ParameterType(int index) {
+        this.index = index;
     }
 
 }
