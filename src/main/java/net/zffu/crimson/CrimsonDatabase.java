@@ -27,14 +27,13 @@ public class CrimsonDatabase {
      */
     private HashMap<String, CrimsonTable> tables;
 
-    public CrimsonDatabase(File databaseFolder) throws IOException, FormattingException {
+    public CrimsonDatabase(File databaseFolder) throws IOException {
         if(!databaseFolder.exists()) {
             databaseFolder.mkdir();
         }
         if(!databaseFolder.isDirectory()) throw new IOException("The Crimson Database folder provided is not a directory!");
         this.databaseFolder = databaseFolder;
         this.tables = new HashMap<>();
-        this.loadTables();
     }
 
     /**
@@ -42,7 +41,7 @@ public class CrimsonDatabase {
      * @throws IOException
      * @throws FormattingException
      */
-    private void loadTables() throws IOException, FormattingException {
+    public void loadTables() throws IOException, FormattingException {
         TableDecoder decoder = new TableDecoder();
         for(File file : this.databaseFolder.listFiles()) {
             if(!file.getName().endsWith(".crimson")) continue;

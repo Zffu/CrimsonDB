@@ -27,9 +27,14 @@ public class TableDecoder extends Decoder<CrimsonTable> {
         CrimsonTable table = new CrimsonTable(null);
 
         try {
+            boolean b = false;
             for(String paramPart : paramParts) {
                 ParameterType parameter = decodeParam(paramPart);
-                table.addParameter(parameter);
+                if(b) table.addParameter(parameter);
+                else {
+                    table.setPrimaryKeyType(parameter);
+                    b = true;
+                }
             }
 
             decodeEntries(table, metaSeperator[1]);
@@ -41,13 +46,12 @@ public class TableDecoder extends Decoder<CrimsonTable> {
         return table;
     }
 
-    public Map<String, Object[]> decodeEntries(CrimsonTable table, String stringPart) throws Exception {
-        Map<String, Object[]> map = new HashMap<>();
+    public void decodeEntries(CrimsonTable table, String stringPart) throws Exception {
         String[] entries = stringPart.split(",");
 
         for(String entry : entries) {
             String[] parameters = entry.split("!");
-            if(parameters.length != table.getParameters().size()) throw new FormattingException("Error while decoding entries of table: Entry parameters are not the same as the table's parameters");
+            if(parameters.length != table.getParameters().size()) throw new FormattingException("Error while decoding entries of table: Entry parameters are not the same as the table's parameters (Table parameters: " + table.getParameters().toString() + "  Entry parameters: " + parameters + ")");
 
             int pIndex = 0;
 
@@ -63,9 +67,8 @@ public class TableDecoder extends Decoder<CrimsonTable> {
                 pIndex++;
             }
 
-            map.put(parameters[0], params);
+            table.addEntry(ParameterFactory.convertStringToCorrespondingType(parameters[0], table.getPrimaryKeyType()), params);
         }
-        return map;
     }
 
 

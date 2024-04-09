@@ -74,6 +74,11 @@ public class CrimsonTable {
         this.primaryKey = type;
     }
 
+    public ParameterType getPrimaryKeyType() {
+        return this.primaryKey;
+    }
+
+
     /**
      * Uses the provided template of primary key type and parameters only if those data are not set.
      * @param keyType

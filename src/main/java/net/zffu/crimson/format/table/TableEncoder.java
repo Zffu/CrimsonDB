@@ -16,11 +16,9 @@ public class TableEncoder extends Encoder<CrimsonTable> {
     }
 
     public String encodeParameters(CrimsonTable table) {
-        String s = "";
-        boolean b = false;
+        String s = "" + table.getPrimaryKeyType().index;
         for(ParameterType type : table.getParameters()) {
-            if(b) s += ",";
-            b = true;
+            s += ",";
             s += type.index;
         }
         return s;
