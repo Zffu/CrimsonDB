@@ -1,5 +1,7 @@
 package net.zffu.crimson.tables.params;
 
+import net.zffu.crimson.format.FormattingException;
+
 /**
  * Represents a parameter of a table.
  */

@@ -6,6 +6,6 @@ package net.zffu.crimson.format;
  */
 public abstract class Decoder<T> {
 
-    public abstract T decode(String string);
+    public abstract T decode(String string) throws FormattingException;
 
 }

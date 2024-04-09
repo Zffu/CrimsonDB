@@ -4,6 +4,14 @@ public enum ParameterType {
 
     ANY,
     STRING,
-    NUMBER
+    NUMBER;
+
+    public static ParameterType get(int index) {
+        try {
+            return values()[index];
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
 }
