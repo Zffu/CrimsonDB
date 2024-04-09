@@ -11,7 +11,7 @@ public class TableDecoderTest {
         TableDecoder decoder = new TableDecoder();
         CrimsonTable table = null;
         try {
-            table = decoder.decode("12;test!t");
+            table = decoder.decode("2,1;123!Idk");
         } catch (FormattingException e) {
             e.printStackTrace();
         }
