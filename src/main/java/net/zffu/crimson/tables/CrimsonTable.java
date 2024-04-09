@@ -66,6 +66,16 @@ public class CrimsonTable {
     }
 
     /**
+     * Gets the parameter with the given index.
+     * @param index
+     * @return
+     */
+    public ParameterType getParameter(int index) {
+        if(index == 0) return this.primaryKey;
+        return this.parameters.get(index - 1);
+    }
+
+    /**
      * Sets the primary key type.
      * @param type
      */

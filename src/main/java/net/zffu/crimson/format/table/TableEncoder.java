@@ -28,12 +28,11 @@ public class TableEncoder extends Encoder<CrimsonTable> {
         String s = "";
         boolean b = false;
         for(Map.Entry<Object, Object[]> entry : table.getEntries().entrySet()) {
-            boolean bb = false;
             if(b) s += ",";
+            s += entry.getKey().toString();
             for(Object o : entry.getValue()) {
-                if(bb) s += "!";
+                s += "!";
                 s += o.toString();
-                bb = true;
             }
         }
         return s;

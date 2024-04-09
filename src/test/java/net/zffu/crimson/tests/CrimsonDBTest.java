@@ -19,7 +19,7 @@ public class CrimsonDBTest {
             System.out.println(table.getEntries().keySet());
 
             table.useTemplateIfEmpty(ParameterType.STRING, ParameterType.INTEGER);
-            //table.addEntry("test",69);
+            table.addEntry("test",69);
 
             //database.saveTables();
         } catch (Exception e) {

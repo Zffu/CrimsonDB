@@ -51,14 +51,14 @@ public class TableDecoder extends Decoder<CrimsonTable> {
 
         for(String entry : entries) {
             String[] parameters = entry.split("!");
-            if(parameters.length != table.getParameters().size()) throw new FormattingException("Error while decoding entries of table: Entry parameters are not the same as the table's parameters (Table parameters: " + table.getParameters().toString() + "  Entry parameters: " + parameters + ")");
+            if(parameters.length != (table.getParameters().size() + 1)) throw new FormattingException("Error while decoding entries of table: Entry parameters are not the same as the table's parameters (Table parameters: " + table.getParameters().toString() + "  Entry parameters: " + parameters + ")");
 
             int pIndex = 0;
 
             Object[] params = new Object[parameters.length - 1];
 
             for(String param : parameters) {
-                ParameterType parameter = table.getParameters().get(pIndex);
+                ParameterType parameter = table.getParameter(pIndex);
 
                 if(parameter != ParameterType.STRING && param.matches(".*[a-z].*")) throw new FormattingException("Error while decoding entries of table: Entry parameter " + pIndex + " seems like a string but is not supposed to be one!");
 
