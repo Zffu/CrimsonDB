@@ -14,6 +14,11 @@ import java.util.List;
 public class CrimsonTable {
 
     /**
+     * The primary key type of the table.
+     */
+    private ParameterType primaryKey;
+
+    /**
      * The parameters of the table
      */
     private List<ParameterType> parameters;
@@ -21,7 +26,7 @@ public class CrimsonTable {
     /**
      * The entries of the table.
      */
-    private HashMap<String, Object[]> entries = new HashMap<>();
+    private HashMap<Object, Object[]> entries = new HashMap<>();
 
     /**
      * The table name.
@@ -58,14 +63,23 @@ public class CrimsonTable {
         return this.parameters;
     }
 
+    public void setPrimaryKeyType(ParameterType type) {
+        this.primaryKey = type;
+    }
+
+
     /**
      * Adds an entry into the table.
      * @param key
      * @param params
      */
-    public void addEntry(String key, Object... params) throws DatabaseModificationException {
+    public void addEntry(Object key, Object... params) throws DatabaseModificationException {
         if(params.length != this.parameters.size()) throw new DatabaseModificationException("Error while adding entry to table: The parameters do not match");
         this.entries.put(key, params);
+    }
+
+    public HashMap<Object, Object[]> getEntries() {
+        return this.entries;
     }
 
 }
