@@ -3,6 +3,7 @@ package net.zffu.crimson.format.table;
 import net.zffu.crimson.format.Decoder;
 import net.zffu.crimson.format.FormattingException;
 import net.zffu.crimson.tables.CrimsonTable;
+import net.zffu.crimson.tables.params.ParameterFactory;
 import net.zffu.crimson.tables.params.ParameterType;
 
 import java.util.ArrayList;
@@ -21,12 +22,12 @@ public class TableDecoder extends Decoder<CrimsonTable> {
     @Override
     public CrimsonTable decode(String string) throws FormattingException {
         String[] metaSeperator = string.split(";");
-        char[] paramParts = metaSeperator[0].toCharArray();
+        String[] paramParts = metaSeperator[0].split(",");
 
         CrimsonTable table = new CrimsonTable(null);
 
         try {
-            for(char paramPart : paramParts) {
+            for(String paramPart : paramParts) {
                 ParameterType parameter = decodeParam(paramPart);
                 table.addParameter(parameter);
             }
@@ -40,8 +41,8 @@ public class TableDecoder extends Decoder<CrimsonTable> {
         return table;
     }
 
-    public Map<String, List<String>> decodeEntries(CrimsonTable table, String stringPart) throws Exception {
-        Map<String, List<String>> map = new HashMap<>();
+    public Map<String, Object[]> decodeEntries(CrimsonTable table, String stringPart) throws Exception {
+        Map<String, Object[]> map = new HashMap<>();
         String[] entries = stringPart.split(",");
 
         for(String entry : entries) {
@@ -50,14 +51,14 @@ public class TableDecoder extends Decoder<CrimsonTable> {
 
             int pIndex = 0;
 
-            List<String> params = new ArrayList<>();
+            Object[] params = new Object[parameters.length - 1];
 
             for(String param : parameters) {
                 ParameterType parameter = table.getParameters().get(pIndex);
 
                 if(parameter != ParameterType.STRING && param.matches(".*[a-z].*")) throw new FormattingException("Error while decoding entries of table: Entry parameter " + pIndex + " seems like a string but is not supposed to be one!");
 
-                if(pIndex > 0) params.add(param);
+                if(pIndex > 0) params[pIndex - 1] = ParameterFactory.convertStringToCorrespondingType(param, parameter);
 
                 pIndex++;
             }
@@ -68,8 +69,8 @@ public class TableDecoder extends Decoder<CrimsonTable> {
     }
 
 
-    public ParameterType decodeParam(char stringPart) throws Exception {
-        ParameterType type = ParameterType.get(Integer.parseInt("" + stringPart));
+    public ParameterType decodeParam(String stringPart) throws Exception {
+        ParameterType type = ParameterType.get(Integer.parseInt(stringPart));
         if(type == null) throw new FormattingException("Error while decoding table parameter: " + stringPart + " is not a valid type index!");
         return type;
     }
