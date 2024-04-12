@@ -1,6 +1,19 @@
 # CrimsonBD
 CrimsonDB is an attempt at making fast and lightweight local databases in Java.
 
+## File Weight Compared to SQLITE
+Please keep in mind that those tests were realised with small amounts of data.
+
+| Data to save             | CrimsonDB    | SQLITE       |
+|--------------------------|--------------|--------------|
+| 9 Parameters in 2 tables | 18 bytes     | 20,480 bytes |
+
+## Limitations
+Currently, Crimson is in development and some bugs might occur. Also some features are currently not usable:
+- **Lists:** Lists are currently not supported by Crimson, However we will add support for them soon.
+- **Characters used in the format:** One of Crimson biggest limitation, you cannot use the character used in the file format right now.
+
+
 ## Usage
 In order to use CrimsonDB you must create a Crimson Database like this:
 
