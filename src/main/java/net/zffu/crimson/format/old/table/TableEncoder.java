@@ -1,4 +1,4 @@
-package net.zffu.crimson.format.table;
+package net.zffu.crimson.format.old.table;
 
 import net.zffu.crimson.format.Encoder;
 import net.zffu.crimson.format.FormattingException;

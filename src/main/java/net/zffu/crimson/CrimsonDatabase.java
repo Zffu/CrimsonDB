@@ -1,15 +1,12 @@
 package net.zffu.crimson;
 
+import net.zffu.crimson.format.EncoderAndDecoderPair;
 import net.zffu.crimson.format.FormattingException;
-import net.zffu.crimson.format.table.TableDecoder;
-import net.zffu.crimson.format.table.TableEncoder;
 import net.zffu.crimson.tables.CrimsonTable;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * A Database that is powered by CrimsonDB.
@@ -27,6 +24,8 @@ public class CrimsonDatabase {
      */
     private HashMap<String, CrimsonTable> tables;
 
+    private EncoderAndDecoderPair encoderAndDecoderPair;
+
     public CrimsonDatabase(File databaseFolder) throws IOException {
         if(!databaseFolder.exists()) {
             databaseFolder.mkdir();
@@ -34,6 +33,17 @@ public class CrimsonDatabase {
         if(!databaseFolder.isDirectory()) throw new IOException("The Crimson Database folder provided is not a directory!");
         this.databaseFolder = databaseFolder;
         this.tables = new HashMap<>();
+        this.encoderAndDecoderPair = EncoderAndDecoderPair.OLD;
+    }
+
+    public CrimsonDatabase(File databaseFolder, EncoderAndDecoderPair pair) throws IOException {
+        if(!databaseFolder.exists()) {
+            databaseFolder.mkdir();
+        }
+        if(!databaseFolder.isDirectory()) throw new IOException("The Crimson Database folder provided is not a directory!");
+        this.databaseFolder = databaseFolder;
+        this.tables = new HashMap<>();
+        this.encoderAndDecoderPair = pair;
     }
 
     /**
@@ -42,13 +52,12 @@ public class CrimsonDatabase {
      * @throws FormattingException
      */
     public void loadTables() throws IOException, FormattingException {
-        TableDecoder decoder = new TableDecoder();
         for(File file : this.databaseFolder.listFiles()) {
             if(!file.getName().endsWith(".crimson")) continue;
             String tableName = file.getName().replace(".crimson", "");
 
             FileInputStream inputStream = new FileInputStream(file);
-            CrimsonTable table = decoder.decode(IOUtils.toString(inputStream));
+            CrimsonTable table = this.encoderAndDecoderPair.decoder.decode(IOUtils.toString(inputStream));
 
             table.setName(tableName);
 
@@ -62,14 +71,13 @@ public class CrimsonDatabase {
      * @throws FormattingException
      */
     public void loadTables(int limit) throws IOException, FormattingException {
-        TableDecoder decoder = new TableDecoder();
         int index = 0;
         for(File file : this.databaseFolder.listFiles()) {
             if(index >= limit) return;
             if(!file.getName().endsWith(".crimson")) continue;
             String tableName = file.getName().replace(".crimson", "");
             FileInputStream inputStream = new FileInputStream(file);
-            CrimsonTable table = decoder.decode(IOUtils.toString(inputStream));
+            CrimsonTable table = this.encoderAndDecoderPair.decoder.decode(IOUtils.toString(inputStream));
 
             table.setName(tableName);
             this.tables.put(tableName, table);
@@ -82,11 +90,10 @@ public class CrimsonDatabase {
      * Saves the tables.
      */
     public void saveTables() throws IOException, FormattingException {
-        TableEncoder encoder = new TableEncoder();
         for(CrimsonTable table : tables.values()) {
             File file = new File(this.databaseFolder, table.getName() + ".crimson");
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            writer.write(encoder.encode(table));
+            writer.write(this.encoderAndDecoderPair.encoder.encode(table));
             writer.close();
         }
     }
