@@ -57,6 +57,28 @@ public class CrimsonDatabase {
     }
 
     /**
+     * Loads the database's table but also limits the amount
+     * @throws IOException
+     * @throws FormattingException
+     */
+    public void loadTables(int limit) throws IOException, FormattingException {
+        TableDecoder decoder = new TableDecoder();
+        int index = 0;
+        for(File file : this.databaseFolder.listFiles()) {
+            if(index >= limit) return;
+            if(!file.getName().endsWith(".crimson")) continue;
+            String tableName = file.getName().replace(".crimson", "");
+            FileInputStream inputStream = new FileInputStream(file);
+            CrimsonTable table = decoder.decode(IOUtils.toString(inputStream));
+
+            table.setName(tableName);
+            this.tables.put(tableName, table);
+
+            index++;
+        }
+    }
+
+    /**
      * Saves the tables.
      */
     public void saveTables() throws IOException, FormattingException {
