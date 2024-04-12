@@ -98,6 +98,11 @@ public class CrimsonDatabase {
         }
     }
 
+    /**
+     * Gets or creates the table from the memory.
+     * @param tableName
+     * @return
+     */
     public CrimsonTable getOrCreateTable(String tableName) {
         if(this.tables.containsKey(tableName)) {
             return this.tables.get(tableName);
