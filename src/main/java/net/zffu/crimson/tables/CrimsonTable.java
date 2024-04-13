@@ -30,6 +30,11 @@ public class CrimsonTable {
     private HashMap<Object, Object[]> entries = new HashMap<>();
 
     /**
+     * The entries stored in the raw format
+     */
+    private String rawEntries;
+
+    /**
      * The table name.
      */
     private String name;
