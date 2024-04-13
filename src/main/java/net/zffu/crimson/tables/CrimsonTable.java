@@ -118,6 +118,10 @@ public class CrimsonTable {
         return this.entries;
     }
 
+    public void setRawEntries(String raw) {
+        this.rawEntries = raw;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
