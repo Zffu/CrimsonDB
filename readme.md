@@ -27,6 +27,7 @@ You must provide a folder to load and save the tables.
 Optionally, you can load the existing table data by using 
 ```java
 database.loadTables();
+database.loadTables(5); // Only loads the first 5 tables, used to not flood memory.
 ```
 
 To use tables, you can use this:
